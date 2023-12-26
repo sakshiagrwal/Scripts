@@ -15,7 +15,7 @@ function PauseNull {
 # Check for admin privileges and relaunch if not present
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 if (-not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Start-Process powershell.exe -ArgumentList "-File", "`"$($MyInvocation.MyCommand.Path)`"" -Verb RunAs
+    Start-Process powershell.exe -ArgumentList "-File `"$($MyInvocation.MyCommand.Path)`"" -Verb RunAs
 }
 
 # Main script execution
