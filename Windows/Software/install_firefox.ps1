@@ -12,11 +12,10 @@ function PauseNull {
     exit
 }
 
-# Check for admin privileges
-$currentPrincipal = [Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent())
+# Check for admin privileges and relaunch if not present
+$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 if (-not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Host "Error: Administrator privileges required." -ForegroundColor Red
-    PauseNull
+    Start-Process powershell.exe -ArgumentList "-File", "`"$($MyInvocation.MyCommand.Path)`"" -Verb RunAs
 }
 
 # Main script execution
