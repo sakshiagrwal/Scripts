@@ -32,7 +32,7 @@ function download_image() {
 }
 
 # Get gallery URL
-printf "%s\n" "$(printf '\u2501%.0s' {1..125})"
+printf "%s\n" "$(printf '\u2500%.0s' {1..125})"
 read -p "Enter the gallery URL (Press Enter for default): " user_url
 user_url="${user_url:-https://www.ragalahari.com/actor/171464/allu-arjun-at-honer-richmont-launch.aspx}"
 
