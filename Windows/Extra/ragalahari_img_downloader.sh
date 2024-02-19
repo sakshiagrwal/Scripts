@@ -3,7 +3,7 @@
 # Function to get the desired number of images
 function get_num_images() {
   local total_images=$1
-  read -p "Enter the number of images to download (Press Enter for all $total_images): " user_input
+  read -p "Enter the number of images to download (Press Enter for all '$total_images'): " user_input
   user_input="${user_input:-$total_images}"
   while ! [[ "$user_input" =~ ^[0-9]+$ && "$user_input" -ge 1 && "$user_input" -le $total_images ]]; do
     read -p "Invalid input. Enter a number between 1 and $total_images: " user_input
@@ -21,19 +21,19 @@ function download_image() {
     echo "'$filename' already exists."
     return 0
   fi
-  echo "Downloading '$filename'..."
+  echo -n "$filename - Downloading..."
   if wget -q -O "$filepath" "$url"; then
-    echo "Downloaded"
+    echo -e "\r$filename - Downloaded."
     return 0
   else
-    echo "Failed to download '$filename'."
+    echo -e "\rFailed to download '$filename'."
     return 1
   fi
 }
 
 # Get gallery URL
 printf "%s\n" "$(printf '\u2501%.0s' {1..125})"
-read -p $'\e[1mEnter the gallery URL (Press Enter for default):\e[0m ' user_url
+read -p "Enter the gallery URL (Press Enter for default): " user_url
 user_url="${user_url:-https://www.ragalahari.com/actor/171464/allu-arjun-at-honer-richmont-launch.aspx}"
 
 # Validate URL format
@@ -68,4 +68,4 @@ for ((i=0; i<number_of_images; i++)); do
   fi
 done
 
-echo "All images downloaded at '$(realpath "$destination_folder")', Total downloaded: $downloaded_count, Total skipped: $skipped_count"
+echo -e "\nAll images downloaded at '$(realpath "$destination_folder")', Total downloaded: $downloaded_count, Total skipped: $skipped_count"
