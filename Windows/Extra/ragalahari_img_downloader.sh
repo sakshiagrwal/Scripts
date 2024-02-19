@@ -48,7 +48,7 @@ fi
 
 # Get image URLs
 response=$(curl -s "$user_url")
-image_urls=$(echo "$response" | grep -oP '(?<=src=")[^"]*t\.jpg' | sed 's/t\.jpg$/\.jpg/')
+image_urls=($(echo "$response" | grep -oP '(?<=src=")[^"]*t\.jpg' | sed 's/t\.jpg$/\.jpg/'))
 total_images=${#image_urls[@]}
 
 # Get desired number of images
@@ -66,7 +66,7 @@ fi
 downloaded_count=0
 skipped_count=0
 for ((i=0; i<$number_of_images; i++)); do
-  imageUrl=${image_urls[$i]}
+  imageUrl=${image_urls[i]}
   status=$(download_image "$imageUrl" "$destination_folder")
   if [[ "$status" -eq 0 ]]; then
     downloaded_count=$((downloaded_count+1))
