@@ -38,7 +38,7 @@ user_url="${user_url:-https://www.ragalahari.com/actor/171464/allu-arjun-at-hone
 
 # Validate URL format
 if [[ ! "$user_url" =~ \.aspx$ ]]; then
-  echo "Invalid URL. Please enter a valid gallery URL." >&2
+  echo -e "\n\e[91mInvalid URL. Please enter a valid gallery URL.\e[0m" >&2
   exit 1
 fi
 
