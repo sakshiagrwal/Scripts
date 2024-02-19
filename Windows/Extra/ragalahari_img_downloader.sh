@@ -42,6 +42,9 @@ if [[ ! "$user_url" =~ \.aspx$ ]]; then
   exit 1
 fi
 
+# Extract folder name from URL and convert to title case
+folder_name=$(echo "$user_url" | grep -oP '[^/]+(?=\.aspx$)' | sed 's/-/ /g' | sed 's/\b\(.\)/\u\1/g')
+
 # Get image URLs
 response=$(curl -s "$user_url")
 image_urls=($(echo "$response" | grep -oP '(?<=src=")[^"]*t\.jpg' | sed 's/t\.jpg$/\.jpg/'))
@@ -50,10 +53,8 @@ total_images=${#image_urls[@]}
 # Get desired number of images
 number_of_images=$(get_num_images "$total_images")
 
-# Get destination folder
-read -p "Enter the destination folder name: " destination_folder
-
-# Create folder if it doesn't exist
+# Create destination folder
+destination_folder="./$folder_name"
 mkdir -p "$destination_folder" || { echo "Failed to create destination folder." >&2; exit 1; }
 
 # Download images
