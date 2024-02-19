@@ -18,15 +18,15 @@ function download_image() {
   local filename=$(basename "$url")
   local filepath="$destination_folder/$filename"
   if [[ -f "$filepath" ]]; then
-    echo "'$filename' already exists."
+    echo -e "$filename - \e[93malready exists. Skipping...\e[0m"
     return 0
   fi
   echo -n "$filename - Downloading..."
   if wget -q -O "$filepath" "$url"; then
-    echo -e "\r$filename - Downloaded."
+    echo -e "\r$filename - Downloaded.   "
     return 0
   else
-    echo -e "\rFailed to download '$filename'."
+    echo -e "\r$filename - Failed to download."
     return 1
   fi
 }
