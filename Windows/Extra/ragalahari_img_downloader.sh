@@ -55,7 +55,10 @@ number_of_images=$(get_num_images "$total_images")
 
 # Create destination folder
 destination_folder="./$folder_name"
-mkdir -p "$destination_folder" || { echo "Failed to create destination folder." >&2; exit 1; }
+if [ ! -d "$destination_folder" ]; then
+    mkdir -p "$destination_folder" || { echo "Failed to create destination folder." >&2; exit 1; }
+    echo -e "\n\033[0;32mFolder '$folder_name' created.\033[0m\n"
+fi
 
 # Download images
 downloaded_count=0
@@ -69,4 +72,4 @@ for ((i=0; i<number_of_images; i++)); do
   fi
 done
 
-echo -e "\nAll images downloaded at '$(realpath "$destination_folder")', Total downloaded: $downloaded_count, Total skipped: $skipped_count"
+echo -e "\n\033[0;34mAll images downloaded at '$(realpath "$destination_folder")', Total downloaded: $downloaded_count, Total skipped: $skipped_count\033[0m"
