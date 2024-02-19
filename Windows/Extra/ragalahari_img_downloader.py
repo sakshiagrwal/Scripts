@@ -188,11 +188,16 @@ def main():
                                 percent = min(
                                     int((download_size / file_size) * 100), 100
                                 )
-                                print(
-                                    f"{file_name_format}{Fore.GREEN} - Downloaded "
-                                    f"{percent}%{Style.RESET_ALL}",
-                                    end="\r",
-                                )
+                                if percent < 100:
+                                    print(
+                                        f"{file_name_format} - Downloading {percent}%{Style.RESET_ALL}",
+                                        end="\r",
+                                    )
+                                else:
+                                    print(
+                                        f"{file_name_format} - Downloaded {percent}%{Style.RESET_ALL}",
+                                        end="\r",
+                                    )
 
                     print()
                     num_downloaded += 1
