@@ -3,21 +3,12 @@
 # Function to get the desired number of images
 function get_num_images() {
   local total_images=$1
-  while true; do
-    read -p "Enter the number of images to download (Press Enter for all $total_images): " user_input
-    if [[ -z "$user_input" ]]; then
-      echo "$total_images"
-      return
-    fi
-    if [[ ! $user_input =~ ^[0-9]+$ ]]; then
-      echo "Enter a valid number between 1 and $total_images." >&2
-    elif (( user_input < 1 || user_input > total_images )); then
-      echo "Invalid number. Needs to be between 1 and $total_images." >&2
-    else
-      echo "$user_input"
-      return
-    fi
+  read -p "Enter the number of images to download (Press Enter for all $total_images): " user_input
+  user_input="${user_input:-$total_images}"
+  while ! [[ "$user_input" =~ ^[0-9]+$ && "$user_input" -ge 1 && "$user_input" -le $total_images ]]; do
+    read -p "Invalid input. Enter a number between 1 and $total_images: " user_input
   done
+  echo "$user_input"
 }
 
 # Function to download and handle existing files
@@ -26,18 +17,17 @@ function download_image() {
   local destination_folder=$2
   local filename=$(basename "$url")
   local filepath="$destination_folder/$filename"
-  if [[ ! -f "$filepath" ]]; then
-    echo "Downloading '$filename'..."
-    if wget -q -O "$filepath" "$url"; then
-      echo "Downloaded"
-      return 0
-    else
-      echo "Failed to download '$filename'."
-      return 1
-    fi
-  else
+  if [[ -f "$filepath" ]]; then
     echo "'$filename' already exists."
     return 0
+  fi
+  echo "Downloading '$filename'..."
+  if wget -q -O "$filepath" "$url"; then
+    echo "Downloaded"
+    return 0
+  else
+    echo "Failed to download '$filename'."
+    return 1
   fi
 }
 
@@ -63,9 +53,7 @@ number_of_images=$(get_num_images "$total_images")
 read -p "Enter the destination folder name: " destination_folder
 
 # Create folder if it doesn't exist
-if [[ ! -d "$destination_folder" ]]; then
-  mkdir -p "$destination_folder" || { echo "Failed to create destination folder." >&2; exit 1; }
-fi
+mkdir -p "$destination_folder" || { echo "Failed to create destination folder." >&2; exit 1; }
 
 # Download images
 downloaded_count=0
