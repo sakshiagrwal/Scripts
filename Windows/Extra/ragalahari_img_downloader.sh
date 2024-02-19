@@ -21,12 +21,12 @@ function download_image() {
     echo -e "$filename - \e[93malready exists. Skipping...\e[0m"
     return 0
   fi
-  echo -n "$filename - \e[93mDownloading\e[0m..."
+  printf "$filename - \e[93mDownloading...\e[0m"
   if wget -q -O "$filepath" "$url"; then
-    echo -e "\r$filename - \e[92mDownloaded\e[0m.   "
+    echo -e "\r$filename - \e[92mDownloaded.\e[0m   "
     return 0
   else
-    echo -e "\r$filename - \e[91mFailed to download\e[0m."
+    echo -e "\r$filename - \e[91mFailed to download.\e[0m"
     return 1
   fi
 }
