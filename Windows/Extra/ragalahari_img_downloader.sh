@@ -24,10 +24,10 @@ function download_image() {
   printf "$filename - \e[93mDownloading...\e[0m"
   if wget -q -O "$filepath" "$url"; then
     echo -e "\r$filename - \e[92mDownloaded.\e[0m   "
-    return 0
+    return 1
   else
     echo -e "\r$filename - \e[91mFailed to download.\e[0m"
-    return 1
+    return 2
   fi
 }
 
