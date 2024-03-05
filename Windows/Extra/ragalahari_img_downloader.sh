@@ -68,4 +68,4 @@ for ((i=0; i<number_of_images; i++)); do
   fi
 done
 
-echo -e "\nImages downloaded at: $(realpath "$destination_folder")\n\e[92mTotal downloaded: $downloaded_count\e[0m - \e[93mTotal skipped: $skipped_count\e[0m\n"
+echo -e "\nImages downloaded at: $(realpath "$destination_folder")/\n\e[92mTotal downloaded: $downloaded_count\e[0m - \e[93mTotal skipped: $skipped_count\e[0m\n"
