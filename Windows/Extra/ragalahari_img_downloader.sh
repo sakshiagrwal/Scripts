@@ -23,7 +23,7 @@ function download_image() {
   fi
   printf "$filename - \e[93mDownloading...\e[0m"
   if wget -q -O "$filepath" "$url"; then
-    echo -e "\r$filename - \e[92mDownloaded.\e[0m   "
+    echo -e "\r$filename - \e[92mDownloaded\e[0m    "
   fi
 }
 
@@ -53,7 +53,7 @@ number_of_images=$(get_num_images "$total_images")
 destination_folder="./$folder_name"
 if [ ! -d "$destination_folder" ]; then
     mkdir -p "$destination_folder" || { echo "Failed to create destination folder." >&2; exit 1; }
-    echo -e "\n\033[0;32mFolder '$folder_name' created.\033[0m\n"
+    echo -e "\n\e[92mFolder '$folder_name' created.\e[0m\n"
 fi
 
 # Download images
@@ -68,4 +68,4 @@ for ((i=0; i<number_of_images; i++)); do
   fi
 done
 
-echo -e "\n\033[0;34mAll images downloaded at '$(realpath "$destination_folder")', Total downloaded: $downloaded_count, Total skipped: $skipped_count\033[0m"
+echo -e "\nImages downloaded at: $(realpath "$destination_folder")\n\e[92mTotal downloaded: $downloaded_count\e[0m - \e[93mTotal skipped: $skipped_count\e[0m\n"
