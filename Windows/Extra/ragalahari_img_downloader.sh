@@ -24,6 +24,10 @@ function download_image() {
   printf "$filename - \e[93mDownloading...\e[0m"
   if wget -q -O "$filepath" "$url"; then
     echo -e "\r$filename - \e[92mDownloaded\e[0m    "
+    return 0
+  else
+    echo -e "\r$filename - \e[91mFailed\e[0m        "
+    return 1
   fi
 }
 
@@ -66,6 +70,9 @@ for ((i=0; i<number_of_images; i++)); do
   else
     ((skipped_count++))
   fi
+  # Update progress bar
+  progress=$(( (i+1) * 100 / number_of_images ))
+  printf "\rProgress: [%-20s] %d%%" $(printf '#%.0s' $(seq 1 $((progress / 5)))) $progress
 done
 
 echo -e "\nImages downloaded at: $(realpath "$destination_folder")/\n\e[92mTotal downloaded: $downloaded_count\e[0m - \e[93mTotal skipped: $skipped_count\e[0m\n"
